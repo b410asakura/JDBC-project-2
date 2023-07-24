@@ -132,11 +132,12 @@ public class JobDaoImpl implements JobDao {
 
     @Override
     public void deleteDescriptionColumn() {
-        String sql = "UPDATE jobs SET description = NULL WHERE id = ?";
+        String sql = "ALTER TABLE jobs DROP COLUMN description";
         try (
                 Connection connection = Config.getConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement(sql)
+                Statement statement = connection.createStatement();
         ) {
+            statement.executeUpdate(sql);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
